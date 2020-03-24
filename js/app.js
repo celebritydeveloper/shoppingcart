@@ -1,8 +1,12 @@
 // Event Listners function
 
+const cart = new Cart();
+
 document.addEventListener("DOMContentLoaded", function() {
     // Initialize the HTMLUI 
-        const html = new HTMLUI();  
+        const html = new HTMLUI();
+        
+        
     // Get the courses
     const list = document.getElementById("courses-list");
     list.addEventListener("click", function(e) {
@@ -37,5 +41,25 @@ HTMLUI.prototype.displayCourse = function(course) {
                 </tr>
             `;
         shoppingCart.appendChild(row);
-        console.log(courseList);
+        cart.addToLocalStorage(courseList);
 }
+
+
+function Cart(courseList) {
+    this.courseList = courseList;
+}
+
+
+Cart.prototype.addToLocalStorage = function(courseList) {
+    
+    if(!JSON.parse(localStorage.getItem("courses"))) {
+        const courses = [];
+        courses.push(courseList);
+        localStorage.setItem("courses", JSON.stringify(courses));
+    }else {
+        const courses = JSON.parse(localStorage.getItem("courses"));
+        courses.push(courseList);
+        localStorage.setItem("courses", JSON.stringify(courses));
+    } 
+}
+
