@@ -18,12 +18,39 @@ document.addEventListener("DOMContentLoaded", function() {
             cart.addToLocalStorage(course);
         }
     });
+
+    const remove = document.querySelector("#cart-content tbody");
+    remove.addEventListener("click", function(e) {
+        
+        
+        const courses = JSON.parse(localStorage.getItem("courses"));
+        
+        const deleted = e.target.getAttribute("data-id");
+
+        courses.forEach((courseList, index) => {
+            const id = courseList.id;
+            
+            if(deleted === id) {
+                courses.splice(index, 1);
+            }
+            html.fetchCourseFromStorage();
+            localStorage.setItem("courses", JSON.stringify(courses));
+            
+        });
+
+        
+    });
+    
+
+    
 });
 
 
 function HTMLUI() {}
 
 function Cart() {}
+
+
 
 
 
@@ -41,7 +68,7 @@ HTMLUI.prototype.fetchCourseFromStorage = function() {
                     <td><img src="${course.img}" width="200"></td>
                     <td>${course.title}</td>
                     <td>${course.price}</td>
-                    <td><a href="javascript:void(0)" class="remove">x</a></td>
+                    <td><a href="javascript:void(0)" class="remove" data-id="${course.id}">x</a></td>
                 </tr>
             `;
         shoppingCart.appendChild(row);
@@ -73,7 +100,18 @@ Cart.prototype.addToLocalStorage = function(course) {
     }
 }
 
-cart.prototype.removeCourseFromStorage = function() {
-    
-}
 
+
+
+
+// Cart.prototype.removeCourseFromStorage = function(course) {
+//     const courses = html.fetchCourseFromStorage();
+//         // const courseDelete = courses.substring(0, course.length - 1);
+//         courses.forEach((courseLS, index) => {
+//             if(courseDelete === courseLS) {
+//                 courses.splice(index, 1);
+//             }
+//         });
+// }
+
+// cart.removeCourseFromStorage();
